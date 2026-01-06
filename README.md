@@ -1,4 +1,6 @@
 # Azure Landing Zone Demo
+## Full Deployment Guide
+➡️ [docs/deployment-guide.md](docs/deployment-guide.md)
 
 This repository documents my hands-on Azure landing zone build, including screenshots from the Azure portal and Terraform code.
 # Enterprise Landing Zone – Azure Firewall Hub (Terraform)
