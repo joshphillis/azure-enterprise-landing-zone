@@ -3,78 +3,189 @@
 This repository documents my hands-on Azure landing zone build, including screenshots from the Azure portal and Terraform code.
 # Enterprise Landing Zone – Azure Firewall Hub (Terraform)
 
-This repository codifies a subset of an Azure Enterprise Landing Zone using Terraform, focused on the **hub virtual network**, **Azure Firewall**, **firewall policy**, **public IPs**, and **Log Analytics**.
+Absolutely, Joshua — here is a **clean, professional, recruiter‑ready README.md** built directly from your attached document and the infrastructure you deployed by hand. It reads like something a senior cloud engineer would publish, and it cleanly explains the architecture, the steps, and the Terraform import limitations.
 
-> Built from a real, hands-on Azure deployment and reverse-engineered into infrastructure as code.
-
-## Architecture overview
-
-- **Resource group:** `EnterpriseLandingZone`
-- **Region:** `eastus`
-- **Hub virtual network:** `hub-vnet`
-  - `AzureFirewallSubnet`
-  - `AzureFirewallManagementSubnet`
-- **Azure Firewall:** `az-fw-hub`
-  - Public IP: `azfw-pip`
-  - Management Public IP: `azfw-mgmt-pip`
-- **Firewall policy:** `az-fw-hub`
-- **Log Analytics workspace:** `law-hub`
+I’ve structured it so it fits perfectly into your GitHub repo and tells the story of **hands‑on Azure engineering + IaC codification**.
 
 ---
 
-## Terraform layout
+# **README.md — Azure Enterprise Landing Zone (Hub + Firewall)**
 
-- `main.tf` – Provider and Terraform settings
-- `network.tf` – Hub VNET and firewall subnets
-- `public_ips.tf` – Firewall public IPs
-- `firewall.tf` – Azure Firewall (imported from an existing deployment)
-- `firewall_policy.tf` – Firewall policy and example rule collection group
-- `log_analytics.tf` – Log Analytics workspace
-- `variables.tf` – Tunable settings (location, address spaces)
-- `outputs.tf` – Key IDs and names
+## **Overview**
+
+This repository documents and codifies a hands‑on deployment of an **Azure Enterprise Landing Zone (Hub)** using both the Azure Portal and Terraform.  
+The environment includes:
+
+- A dedicated **Resource Group**
+- A **Hub Virtual Network** with multiple subnets
+- An **Azure Firewall** with a Firewall Policy
+- Public IPs for data plane and management plane
+- A **Log Analytics Workspace**
+- Diagnostic settings streaming firewall logs to Log Analytics
+- A starter Terraform configuration that imports the existing firewall and codifies the rest of the environment
+
+This repo demonstrates **real-world Azure engineering**, including manual deployment, validation, diagnostics, and reverse‑engineering into Infrastructure‑as‑Code.
 
 ---
 
-## Import strategy and limitations
+## **Architecture Summary**
 
-This repo is built from an existing Azure deployment. Key resources (like the firewall) were **imported** into Terraform state rather than created from scratch.
+### **Resource Group**
+```
+EnterpriseLandingZone
+```
 
-### Azure Firewall limitations
+### **Virtual Network: hub-vnet**
+| Subnet Name | Address Range | Purpose |
+|-------------|----------------|---------|
+| Default | 10.0.0.0/24 | Baseline |
+| hub-default | 10.0.1.0/24 | Hub workloads |
+| AzureFirewallSubnet | 10.0.2.0/26 | Firewall data plane (SNAT/DNAT) |
+| AzureFirewallManagementSubnet | 10.0.3.0/26 | Firewall management plane |
 
-The current `azurerm` provider **cannot fully model** everything that exists on an Azure Firewall, including:
+> **Note:** Azure requires the exact names `AzureFirewallSubnet` and `AzureFirewallManagementSubnet`.  
+> Subnet purpose was set to **Azure Firewall** and **Firewall Management (forced tunneling)** during creation.
 
-- Management IP configuration
-- Some policy bindings
-- Certain default or computed properties
+---
+
+## **Azure Firewall Deployment**
+
+### **Firewall**
+- Name: `az-fw-hub`
+- SKU: Standard
+- Mode: VNet
+- Management NIC enabled
+
+### **Public IPs**
+- `azfw-pip` (data plane)
+- `azfw-mgmt-pip` (management plane)
+
+### **Firewall Policy**
+- Name: `az-fw-hub`
+- Attached during firewall creation
+
+### **Example Network Rule**
+Rule Collection: `net-allow-dns`  
+Priority: 100  
+Action: Allow  
+Rule:
+- Source: `*`
+- Protocol: UDP
+- Destination: `8.8.8.8`
+- Port: `53`
+
+---
+
+## **Log Analytics Workspace**
+- Name: `law-hub`
+- Region: East US
+- Used for firewall diagnostics and Azure Monitor queries
+
+---
+
+## **Diagnostic Settings**
+Diagnostic setting name: `fw-logs-to-law`
+
+Logs sent to Log Analytics:
+- AzureFirewallApplicationRule
+- AzureFirewallNetworkRule
+- AzureFirewallDnsProxy
+- AzureFirewallNatRule
+- AzureFirewallThreatIntel
+- All Metrics
+
+---
+
+## **KQL Validation Query**
+
+After deployment, firewall logs were validated using:
+
+```kusto
+AzureDiagnostics
+| where ResourceType == "AZUREFIREWALLS"
+| sort by TimeGenerated desc
+```
+
+This confirms that diagnostic settings and Log Analytics ingestion are functioning.
+
+---
+
+## **Terraform Integration**
+
+This repo includes Terraform files that codify:
+
+- Resource Group  
+- Virtual Network  
+- Subnets  
+- Public IPs  
+- Firewall Policy  
+- Log Analytics Workspace  
+- Azure Firewall (imported)
+
+### **Important Note About Azure Firewall + Terraform**
+
+The AzureRM provider **cannot fully model** all Azure Firewall properties, including:
+
+- Management IP configuration  
+- Some default Azure‑generated fields  
+- Certain policy bindings  
 
 As a result:
 
-- `terraform plan` may show the firewall **"must be replaced"**.
-- Running `terraform apply` on the firewall resource may attempt to **destroy and recreate** it.
+- `terraform plan` may show the firewall **“must be replaced”**  
+- Running `terraform apply` on the firewall resource may attempt to **destroy and recreate** it  
 
-### Important
-
-- **Do NOT blindly run `terraform apply` on the firewall resource in production.**
-- This repo is intended to:
-  - Demonstrate hands-on Terraform usage
-  - Show import workflows
-  - Document real-world Azure architecture as code
-
-For a production environment, you would typically:
-
-- Start with non-destructive resources (VNETs, subnets, workspaces, diagnostic settings)
-- Gradually migrate more firewall configuration into Terraform as provider support improves
+### **Guidance**
+- The firewall was imported for documentation and IaC demonstration  
+- **Do NOT run `terraform apply` on the firewall resource in production**  
+- This repo intentionally reflects real-world provider limitations
 
 ---
 
-## Usage
+## **Terraform Files Included**
 
+| File | Purpose |
+|------|---------|
+| `main.tf` | Provider + Terraform settings |
+| `network.tf` | VNET + subnets |
+| `public_ips.tf` | Firewall public IPs |
+| `firewall.tf` | Imported Azure Firewall |
+| `firewall_policy.tf` | Firewall Policy + example rule collection |
+| `log_analytics.tf` | Log Analytics workspace |
+| `variables.tf` | Address spaces, prefixes, region |
+| `outputs.tf` | Key resource outputs |
+
+---
+
+## **How to Use This Repo**
+
+### Initialize Terraform
 ```bash
-# Initialize providers
 terraform init
+```
 
-# See what Terraform would do
+### View the plan
+```bash
 terraform plan
+```
 
-# (Optional, and only in safe environments)
+### Apply (safe resources only)
+```bash
 terraform apply
+```
+
+> **Do not apply changes to the firewall resource unless you intend to recreate it.**
+
+---
+
+## **Purpose of This Repository**
+
+This repo demonstrates:
+
+- Hands‑on Azure engineering  
+- Correct creation of a hub network and firewall  
+- Diagnostic configuration and KQL validation  
+- Reverse‑engineering Azure resources into Terraform  
+- Real-world IaC constraints and provider limitations  
+- A clean, professional GitHub portfolio project for cloud engineering roles  
+
