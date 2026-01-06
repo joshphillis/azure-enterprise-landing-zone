@@ -203,5 +203,22 @@ This repo demonstrates:
 - Diagnostic configuration and KQL validation  
 - Reverse‑engineering Azure resources into Terraform  
 - Real-world IaC constraints and provider limitations  
-- A clean, professional GitHub portfolio project for cloud engineering roles  
+- A clean, professional GitHub portfolio project for cloud engineering roles
 
+## What I Learned
+
+- Azure Firewall requires specific subnet names and address ranges.
+- The Firewall Management NIC is only available when forced tunneling is enabled.
+- Diagnostic settings must be explicitly configured to stream logs to Log Analytics.
+- Terraform cannot fully model Azure Firewall resources due to provider limitations.
+- Importing existing Azure resources into Terraform is a real-world workflow.
+
+## Future Enhancements
+
+- Add Terraform-managed diagnostic settings
+- Add route tables and forced tunneling configuration
+- Add spoke VNETs and peering to the hub
+- Add Azure Bastion for secure management access
+- Expand firewall policy with application and NAT rules
+
+📘 Full Deployment Guide: [docs/deployment-guide.md](docs/deployment-guide.md)
