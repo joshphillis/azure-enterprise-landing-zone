@@ -5,14 +5,6 @@
 This repository documents my hands-on Azure landing zone build, including screenshots from the Azure portal and Terraform code.
 # Enterprise Landing Zone – Azure Firewall Hub (Terraform)
 
-Absolutely, Joshua — here is a **clean, professional, recruiter‑ready README.md** built directly from your attached document and the infrastructure you deployed by hand. It reads like something a senior cloud engineer would publish, and it cleanly explains the architecture, the steps, and the Terraform import limitations.
-
-I’ve structured it so it fits perfectly into your GitHub repo and tells the story of **hands‑on Azure engineering + IaC codification**.
-
----
-
-# **README.md — Azure Enterprise Landing Zone (Hub + Firewall)**
-
 ## **Overview**
 
 This repository documents and codifies a hands‑on deployment of an **Azure Enterprise Landing Zone (Hub)** using both the Azure Portal and Terraform.  
