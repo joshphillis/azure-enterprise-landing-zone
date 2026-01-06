@@ -4,7 +4,6 @@ resource "azurerm_firewall_policy" "hub" {
   location            = azurerm_resource_group.enterprise.location
 
   sku      = "Standard"
-  priority = 100
 }
 
 # TODO: Example rule collection group scaffold
@@ -46,4 +45,5 @@ resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
 # NOTE:
 # This is an example scaffold. Adjust or remove rules to match your actual policy.
 # If your existing policy is more complex, document it in README and selectively
+
 # migrate rules over time rather than trying to mirror it 1:1 on day one.
