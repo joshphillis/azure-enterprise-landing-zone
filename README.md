@@ -198,6 +198,16 @@ terraform apply
 
 ---
 
+## Screenshots
+
+| Description | File |
+|------------|------|
+| Hub VNET and subnets | architecture/screenshots/vnet-subnets.png |
+| Azure Firewall overview | architecture/screenshots/firewall-overview.png |
+| Firewall Policy | architecture/screenshots/firewall-policy.png |
+| Diagnostic Settings | architecture/screenshots/diagnostic-settings.png |
+| Log Analytics KQL validation | architecture/screenshots/log-analytics-query.png |
+
 ## **Purpose of This Repository**
 
 This repo demonstrates:
