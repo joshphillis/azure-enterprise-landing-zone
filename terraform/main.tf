@@ -2,11 +2,6 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_firewall" "hub" {
-  name                = "az-fw-hub"
-  location            = "East US"
-  resource_group_name = "EnterpriseLandingZone"
-
   sku_name  = "AZFW_VNet"
   sku_tier  = "Standard"
 
@@ -15,4 +10,5 @@ resource "azurerm_firewall" "hub" {
     subnet_id            = "/subscriptions/8d3e1cd2-8996-4289-91db-4960cbdf5066/resourceGroups/EnterpriseLandingZone/providers/Microsoft.Network/virtualNetworks/hub-vnet/subnets/AzureFirewallSubnet"
     public_ip_address_id = "/subscriptions/8d3e1cd2-8996-4289-91db-4960cbdf5066/resourceGroups/EnterpriseLandingZone/providers/Microsoft.Network/publicIPAddresses/fw-pip"
   }
+
 }
