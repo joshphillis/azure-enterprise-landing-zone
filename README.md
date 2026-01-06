@@ -5,6 +5,21 @@
 This repository documents my hands-on Azure landing zone build, including screenshots from the Azure portal and Terraform code.
 # Enterprise Landing Zone – Azure Firewall Hub (Terraform)
 
+## **Overview**
+
+This repository documents and codifies a hands‑on deployment of an **Azure Enterprise Landing Zone (Hub)** using both the Azure Portal and Terraform.  
+The environment includes:
+
+- A dedicated **Resource Group**
+- A **Hub Virtual Network** with multiple subnets
+- An **Azure Firewall** with a Firewall Policy
+- Public IPs for data plane and management plane
+- A **Log Analytics Workspace**
+- Diagnostic settings streaming firewall logs to Log Analytics
+- A starter Terraform configuration that imports the existing firewall and codifies the rest of the environment
+
+This repo demonstrates **real-world Azure engineering**, including manual deployment, validation, diagnostics, and reverse‑engineering into Infrastructure‑as‑Code.
+
 EnterpriseLandingZone (Resource Group)
 │
 ├── hub-vnet (Virtual Network)
@@ -26,21 +41,6 @@ EnterpriseLandingZone (Resource Group)
         ├── NATRule
         ├── ThreatIntel
         └── All Metrics
-
-## **Overview**
-
-This repository documents and codifies a hands‑on deployment of an **Azure Enterprise Landing Zone (Hub)** using both the Azure Portal and Terraform.  
-The environment includes:
-
-- A dedicated **Resource Group**
-- A **Hub Virtual Network** with multiple subnets
-- An **Azure Firewall** with a Firewall Policy
-- Public IPs for data plane and management plane
-- A **Log Analytics Workspace**
-- Diagnostic settings streaming firewall logs to Log Analytics
-- A starter Terraform configuration that imports the existing firewall and codifies the rest of the environment
-
-This repo demonstrates **real-world Azure engineering**, including manual deployment, validation, diagnostics, and reverse‑engineering into Infrastructure‑as‑Code.
 
 ---
 
