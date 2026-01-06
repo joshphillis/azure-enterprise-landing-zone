@@ -5,6 +5,28 @@
 This repository documents my hands-on Azure landing zone build, including screenshots from the Azure portal and Terraform code.
 # Enterprise Landing Zone – Azure Firewall Hub (Terraform)
 
+EnterpriseLandingZone (Resource Group)
+│
+├── hub-vnet (Virtual Network)
+│   ├── Default (10.0.0.0/24)                  → Baseline subnet
+│   ├── hub-default (10.0.1.0/24)              → Hub workloads
+│   ├── AzureFirewallSubnet (10.0.2.0/26)      → SNAT/DNAT traffic
+│   └── AzureFirewallManagementSubnet (10.0.3.0/26) → Management NIC (forced tunneling)
+│
+├── az-fw-hub (Azure Firewall)
+│   ├── Public IP: azfw-pip                    → Data plane
+│   ├── Mgmt Public IP: azfw-mgmt-pip          → Management plane
+│   └── Firewall Policy: az-fw-hub             → Attached during creation
+│
+└── law-hub (Log Analytics Workspace)
+    └── Diagnostic Setting: fw-logs-to-law
+        ├── ApplicationRule
+        ├── NetworkRule
+        ├── DNSProxy
+        ├── NATRule
+        ├── ThreatIntel
+        └── All Metrics
+
 ## **Overview**
 
 This repository documents and codifies a hands‑on deployment of an **Azure Enterprise Landing Zone (Hub)** using both the Azure Portal and Terraform.  
