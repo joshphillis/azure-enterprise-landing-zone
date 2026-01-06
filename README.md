@@ -2,6 +2,8 @@
 ## Full Deployment Guide
 ➡️ [docs/deployment-guide.md](docs/deployment-guide.md)
 
+📸 Screenshots available in /architecture/screenshots
+
 ![Terraform](https://img.shields.io/badge/Terraform-1.4+-5C4EE5)
 ![Azure](https://img.shields.io/badge/Azure-Cloud-blue)
 ![IaC](https://img.shields.io/badge/Infrastructure_as_Code-Terraform-green)
