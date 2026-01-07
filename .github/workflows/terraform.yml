@@ -1,32 +1,45 @@
-  terraform-apply:
-    needs: terraform
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  terraform-plan:
+    name: Terraform Plan
     runs-on: ubuntu-latest
-    environment: production
-
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Login to Azure
-      uses: azure/login@v2
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-    - name: Export Azure credentials for Terraform
-      run: |
-        echo "ARM_CLIENT_ID=${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}" >> $GITHUB_ENV
-        echo "ARM_CLIENT_SECRET=${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}" >> $GITHUB_ENV
-        echo "ARM_SUBSCRIPTION_ID=${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}" >> $GITHUB_ENV
-        echo "ARM_TENANT_ID=${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}" >> $GITHUB_ENV
+      - name: Terraform Init
+        run: terraform init
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
+      - name: Terraform Plan
+        run: terraform plan
 
-    - name: Terraform Init
-      run: terraform -chdir=terraform init
+  terraform-apply:
+    name: Terraform Apply
+    needs: terraform-plan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    environment:
+      name: production
+      url: https://portal.azure.com
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Terraform Apply
-      run: terraform -chdir=terraform apply -auto-approve
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-    - name: Terraform Apply
-      run: terraform -chdir=terraform apply -auto-approve
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
