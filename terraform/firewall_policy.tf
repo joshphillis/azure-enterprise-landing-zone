@@ -37,6 +37,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
         type = "Https"
         port = 443
       }
+<<<<<<< HEAD
     }
   }
 
@@ -51,6 +52,8 @@ resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
       destination_ports     = ["53"]
       destination_addresses = ["*"]
       protocols             = ["UDP"]
+=======
+>>>>>>> 8aa4384 (Cleanup: remove Terraform artifacts, add .gitignore, keep firewall_policy.tf changes)
     }
   }
 }
