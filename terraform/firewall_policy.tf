@@ -2,11 +2,8 @@ resource "azurerm_firewall_policy" "hub" {
   name                = "az-fw-hub"
   resource_group_name = azurerm_resource_group.enterprise.name
   location            = azurerm_resource_group.enterprise.location
-
-  sku      = "Standard"
 }
 
-# TODO: Example rule collection group scaffold
 resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
   name               = "rcg-app-rules"
   firewall_policy_id = azurerm_firewall_policy.hub.id
@@ -24,20 +21,20 @@ resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
         "10.0.0.0/8"
       ]
 
-      protocol {
-        port = 80
-        type = "Http"
-      }
-
-      protocol {
-        port = 443
-        type = "Https"
-      }
-
       destination_fqdns = [
         "www.microsoft.com",
         "learn.microsoft.com"
       ]
+
+      protocols {
+        type = "Http"
+        port = 80
+      }
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
     }
   }
 }
@@ -47,3 +44,4 @@ resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
 # If your existing policy is more complex, document it in README and selectively
 
 # migrate rules over time rather than trying to mirror it 1:1 on day one.
+
