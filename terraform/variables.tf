@@ -1,3 +1,20 @@
+variable "subscription_id" {
+  type = string
+}
+
+variable "tenant_id" {
+  type = string
+}
+
+variable "client_id" {
+  type = string
+}
+
+variable "client_secret" {
+  type = string
+  sensitive = true
+}
+
 variable "location" {
   description = "Azure region for the Enterprise Landing Zone resources."
   type        = string
