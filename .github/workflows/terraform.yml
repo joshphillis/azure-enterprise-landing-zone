@@ -22,7 +22,7 @@ jobs:
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
-      run: terraform -chdir=azure-enterprise-landing-zone/azure-enterprise-landing-zone/terraform init
+      run: terraform -chdir=terraform init
 
     - name: Terraform Plan
-      run: terraform -chdir=azure-enterprise-landing-zone/azure-enterprise-landing-zone/terraform plan
+      run: terraform -chdir=terraform plan
