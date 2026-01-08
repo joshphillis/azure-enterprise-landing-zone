@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 output "resource_group_name" {
   description = "Name of the Enterprise Landing Zone resource group."
   value       = azurerm_resource_group.enterprise.name
@@ -17,7 +16,7 @@ output "firewall_id" {
 output "log_analytics_workspace_id" {
   description = "ID of the Log Analytics workspace used for firewall diagnostics."
   value       = azurerm_log_analytics_workspace.hub.id
-=======
+
 output "resource_group_name" {
   description = "Name of the Enterprise Landing Zone resource group."
   value       = azurerm_resource_group.enterprise.name
@@ -36,5 +35,4 @@ output "firewall_id" {
 output "log_analytics_workspace_id" {
   description = "ID of the Log Analytics workspace used for firewall diagnostics."
   value       = azurerm_log_analytics_workspace.hub.id
->>>>>>> e63dbbb (Restore full Terraform configuration and trigger CI/CD)
 }

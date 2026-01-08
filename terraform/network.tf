@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 resource "azurerm_resource_group" "enterprise" {
   name     = "EnterpriseLandingZone"
   location = var.location
@@ -38,7 +37,7 @@ resource "azurerm_subnet" "hub_firewall_mgmt" {
   virtual_network_name = azurerm_virtual_network.hub.name
   address_prefixes     = [var.hub_firewall_mgmt_subnet_prefix]
 }
-=======
+
 resource "azurerm_resource_group" "enterprise" {
   name     = "EnterpriseLandingZone"
   location = var.location
@@ -78,4 +77,3 @@ resource "azurerm_subnet" "hub_firewall_mgmt" {
   virtual_network_name = azurerm_virtual_network.hub.name
   address_prefixes     = [var.hub_firewall_mgmt_subnet_prefix]
 }
->>>>>>> e63dbbb (Restore full Terraform configuration and trigger CI/CD)
