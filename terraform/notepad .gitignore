@@ -1,0 +1,11 @@
+# Terraform local files
+.terraform/
+.terraform.lock.hcl
+
+# Provider binaries
+*.exe
+*.zip
+*.dll
+
+# OS junk
+*.log
