@@ -32,3 +32,18 @@ output "hub_firewall_subnet_id" {
   description = "ID of the AzureFirewallSubnet in the hub VNet."
   value       = azurerm_subnet.hub_firewall.id
 }
+
+output "bastion_id" {
+  description = "ID of the Azure Bastion host."
+  value       = azurerm_bastion_host.bastion.id
+}
+
+output "nsg_id" {
+  description = "ID of the Network Security Group applied to the default subnet."
+  value       = azurerm_network_security_group.default.id
+}
+
+output "route_table_id" {
+  description = "ID of the route table applied to the default subnet."
+  value       = azurerm_route_table.default.id
+}
