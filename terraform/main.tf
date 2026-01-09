@@ -7,3 +7,19 @@ provider "azurerm" {
   client_id        = var.client_id
   client_secret    = var.client_secret
 }
+
+# ---------------------------------------------------------
+# NEW MODULES: Bastion, NSG, UDR
+# ---------------------------------------------------------
+
+module "bastion" {
+  source = "./bastion"
+}
+
+module "nsg" {
+  source = "./nsg"
+}
+
+module "udr" {
+  source = "./udr"
+}
