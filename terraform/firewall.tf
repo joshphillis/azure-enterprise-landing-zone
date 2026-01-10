@@ -8,7 +8,7 @@ resource "azurerm_firewall" "hub" {
   ip_configuration {
     name                 = "azfw-pip"
     subnet_id            = azurerm_subnet.hub_firewall.id
-    public_ip_address_id = azurerm_public_ip.firewall.id
+    public_ip_address_id = azurerm_public_ip.azfw_pip.id
   }
 
   management_ip_configuration {
