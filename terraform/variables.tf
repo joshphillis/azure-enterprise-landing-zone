@@ -61,6 +61,12 @@ variable "bastion_subnet_name" {
   default     = "AzureBastionSubnet"
 }
 
+variable "bastion_subnet_prefix" {
+  description = "Address prefix for the Bastion subnet."
+  type        = string
+  default     = "10.0.3.0/27"
+}
+
 variable "nsg_name" {
   description = "Name of the Network Security Group applied to the default subnet."
   type        = string
