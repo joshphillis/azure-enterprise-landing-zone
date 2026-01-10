@@ -36,7 +36,7 @@ variable "hub_firewall_subnet_prefix" {
 variable "hub_firewall_mgmt_subnet_prefix" {
   description = "Address prefix for AzureFirewallManagementSubnet."
   type        = string
-  default     = "10.0.3.0/24"
+  default     = "10.0.4.0/26"
 }
 
 # -------------------------------------------------------------------
@@ -78,3 +78,4 @@ variable "route_table_name" {
   type        = string
   default     = "rt-hub-default"
 }
+
