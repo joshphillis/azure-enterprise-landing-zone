@@ -11,12 +11,6 @@ resource "azurerm_firewall" "hub" {
     public_ip_address_id = azurerm_public_ip.azfw_pip.id
   }
 
-  management_ip_configuration {
-    name      = "mgmt-config"
-    subnet_id = azurerm_subnet.hub_firewall_mgmt.id
-  }
-}
-
 # NOTE:
 # - Azure also created a management IP configuration and attached a firewall policy.
 # - The current azurerm provider cannot model those fully without forcing replacement.
