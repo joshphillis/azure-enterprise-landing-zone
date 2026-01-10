@@ -1,6 +1,3 @@
-# ---------------------------------------------------------
-# Subnet for Bastion
-# ---------------------------------------------------------
 resource "azurerm_subnet" "bastion" {
   name                 = var.bastion_subnet_name
   resource_group_name  = var.resource_group_name
@@ -8,9 +5,6 @@ resource "azurerm_subnet" "bastion" {
   address_prefixes     = [var.bastion_subnet_prefix]
 }
 
-# ---------------------------------------------------------
-# Public IP for Bastion
-# ---------------------------------------------------------
 resource "azurerm_public_ip" "bastion" {
   name                = "${var.bastion_name}-pip"
   resource_group_name = var.resource_group_name
@@ -19,9 +13,6 @@ resource "azurerm_public_ip" "bastion" {
   sku                 = "Standard"
 }
 
-# ---------------------------------------------------------
-# Bastion Host
-# ---------------------------------------------------------
 resource "azurerm_bastion_host" "bastion" {
   name                = var.bastion_name
   resource_group_name = var.resource_group_name
@@ -34,9 +25,6 @@ resource "azurerm_bastion_host" "bastion" {
   }
 }
 
-# ---------------------------------------------------------
-# Outputs
-# ---------------------------------------------------------
 output "bastion_id" {
   value = azurerm_bastion_host.bastion.id
 }
