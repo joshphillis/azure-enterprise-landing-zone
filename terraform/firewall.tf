@@ -10,6 +10,7 @@ resource "azurerm_firewall" "hub" {
     subnet_id            = azurerm_subnet.hub_firewall.id
     public_ip_address_id = azurerm_public_ip.azfw_pip.id
   }
+}
 
 # NOTE:
 # - Azure also created a management IP configuration and attached a firewall policy.
