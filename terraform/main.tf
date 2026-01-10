@@ -20,7 +20,7 @@ module "bastion" {
   virtual_network_name    = azurerm_virtual_network.hub.name
   bastion_name            = var.bastion_name
   bastion_subnet_name     = var.bastion_subnet_name
-  bastion_subnet_prefix   = "10.0.3.0/27"
+  bastion_subnet_prefix   = var.bastion_subnet_prefix
 }
 
 module "nsg" {
@@ -35,9 +35,9 @@ module "nsg" {
 module "udr" {
   source = "./udr"
 
-  resource_group_name   = azurerm_resource_group.enterprise.name
-  location              = azurerm_resource_group.enterprise.location
-  default_subnet_id     = azurerm_subnet.default.id
-  firewall_private_ip   = azurerm_firewall.hub.ip_configuration[0].private_ip_address
-  route_table_name      = var.route_table_name
+  resource_group_name = azurerm_resource_group.enterprise.name
+  location            = azurerm_resource_group.enterprise.location
+  default_subnet_id   = azurerm_subnet.default.id
+  firewall_private_ip = azurerm_firewall.hub.ip_configuration[0].private_ip_address
+  route_table_name    = var.route_table_name
 }
