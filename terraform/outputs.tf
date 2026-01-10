@@ -34,16 +34,13 @@ output "hub_firewall_subnet_id" {
 }
 
 output "bastion_id" {
-  description = "ID of the Azure Bastion host."
-  value       = azurerm_bastion_host.bastion.id
+  value = module.bastion.bastion_id
 }
 
 output "nsg_id" {
-  description = "ID of the Network Security Group applied to the default subnet."
-  value       = azurerm_network_security_group.default.id
+  value = module.nsg.nsg_id
 }
 
 output "route_table_id" {
-  description = "ID of the route table applied to the default subnet."
-  value       = azurerm_route_table.default.id
+  value = module.udr.route_table_id
 }
