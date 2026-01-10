@@ -17,8 +17,7 @@ resource "azurerm_firewall" "hub" {
   }
 }
 
-  # NOTE:
-  # - Azure also created a management IP configuration and attached a firewall policy.
-  # - The current azurerm provider cannot model those fully without forcing replacement.
-  # - See README for guidance: do NOT blindly run `terraform apply` on this resource.
-}
+# NOTE:
+# - Azure also created a management IP configuration and attached a firewall policy.
+# - The current azurerm provider cannot model those fully without forcing replacement.
+# - See README for guidance: do NOT blindly run `terraform apply` on this resource.
