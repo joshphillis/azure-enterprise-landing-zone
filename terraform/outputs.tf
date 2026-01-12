@@ -1,46 +1,19 @@
 output "resource_group_name" {
-  description = "Name of the Enterprise Landing Zone resource group."
+  description = "Name of the enterprise resource group"
   value       = azurerm_resource_group.enterprise.name
 }
 
-output "hub_vnet_id" {
-  description = "ID of the hub virtual network."
-  value       = azurerm_virtual_network.hub.id
-}
-
-output "firewall_id" {
-  description = "ID of the Azure Firewall in the hub."
-  value       = azurerm_firewall.hub.id
-}
-
-output "log_analytics_workspace_id" {
-  description = "ID of the Log Analytics workspace used for firewall diagnostics."
-  value       = azurerm_log_analytics_workspace.hub.id
-}
-
 output "location" {
-  description = "Azure region for the Enterprise Landing Zone."
-  value       = azurerm_resource_group.enterprise.location
+  description = "Region of the enterprise landing zone"
+  value       = var.location
 }
 
 output "hub_default_subnet_id" {
-  description = "ID of the default subnet in the hub VNet."
+  description = "ID of the default hub subnet used by workloads"
   value       = azurerm_subnet.default.id
 }
 
-output "hub_firewall_subnet_id" {
-  description = "ID of the AzureFirewallSubnet in the hub VNet."
-  value       = azurerm_subnet.hub_firewall.id
-}
-
-output "bastion_id" {
-  value = module.bastion.bastion_id
-}
-
-output "nsg_id" {
-  value = module.nsg.nsg_id
-}
-
-output "route_table_id" {
-  value = module.udr.route_table_id
+output "firewall_private_ip" {
+  description = "Private IP address of the hub firewall"
+  value       = azurerm_firewall.hub.ip_configuration[0].private_ip_address
 }
