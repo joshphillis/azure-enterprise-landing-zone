@@ -4,13 +4,13 @@
 
 # ✅ **README.md — azure-enterprise-landing-zone**
 
-```markdown
-# Azure Enterprise Landing Zone
-
 Fully automated, Terraform‑driven Azure foundation layer.
 
 This repository deploys the shared enterprise landing zone that all downstream workloads depend on.  
 It provides the core network, Bastion access, and remote state backend used by the VM workload stack.
+
+📸 Screenshots available in:  
+`/architecture/screenshots`
 
 ---
 
@@ -36,49 +36,68 @@ azure-enterprise-landing-zone/
     ├── variables.tf
     ├── outputs.tf
     └── terraform.tfvars   # created locally, not committed
-```
 
 ---
 
 ## 🚀 Deployment (Local Machine or VS Code)
 
 ### 1. Authenticate to Azure
-```
+
+```bash
 az login
 ```
 
-### 2. Create the Terraform backend
-```
-az group create --name rg-tfstate-enterprise --location eastus
+---
 
+### 2. Create the Terraform backend
+
+```bash
+az group create --name rg-tfstate-enterprise --location eastus
+```
+
+```bash
 az storage account create \
   --name <your-storage-account> \
   --resource-group rg-tfstate-enterprise \
   --location eastus \
   --sku Standard_LRS \
   --kind StorageV2
+```
 
+```bash
 az storage container create \
   --name tfstate \
   --account-name <your-storage-account>
-```
+---
 
-### 3. Create your `terraform.tfvars`
+### 3. Create your terraform.tfvars
+
 This file stays **local only** and includes:
 
-- subscription_id  
-- tenant_id  
-- client_id  
-- client_secret  
-- state_rg  
-- state_sa  
-- state_container  
-- state_key  
-- location  
-- tags  
+```
+subscription_id   = "<your-subscription-id>"
+tenant_id         = "<your-tenant-id>"
+client_id         = "<your-client-id>"
+client_secret     = "<your-client-secret>"
+
+state_rg          = "rg-tfstate-enterprise"
+state_sa          = "<your-storage-account>"
+state_container   = "tfstate"
+state_key         = "enterprise.tfstate"
+
+location          = "eastus"
+
+tags = {
+  environment = "dev"
+  owner       = "<your-name>"
+}
+```
+
+---
 
 ### 4. Initialize and deploy
-```
+
+```bash
 cd terraform
 terraform init
 terraform plan
@@ -96,13 +115,14 @@ Downstream stacks read remote state from this deployment.
 
 ## 🧹 Destroy
 
-```
+```bash
 cd terraform
 terraform destroy
 ```
 
-If you want to remove the backend as well:
-```
+To remove the backend as well:
+
+```bash
 az group delete --name rg-tfstate-enterprise
 ```
 
@@ -111,4 +131,4 @@ az group delete --name rg-tfstate-enterprise
 ## ✔️ Status
 
 This repository has been validated end‑to‑end from a local machine using VS Code.
-``
+```
