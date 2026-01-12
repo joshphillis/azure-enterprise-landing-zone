@@ -39,43 +39,125 @@ variable "hub_firewall_mgmt_subnet_prefix" {
   default     = "10.0.4.0/26"
 }
 
-# -------------------------------------------------------------------
-# NEW VARIABLES FOR BASTION, NSG, AND UDR
-# -------------------------------------------------------------------
+#############################
+# Remote state backend
+#############################
 
-variable "bastion_name" {
-  description = "Name of the Azure Bastion host."
+variable "state_rg" {
   type        = string
-  default     = "bastion-hub"
+  description = "Resource group for Terraform state storage account"
 }
 
-variable "bastion_sku" {
-  description = "SKU for Azure Bastion (Basic or Standard)."
+variable "state_sa" {
   type        = string
-  default     = "Basic"
+  description = "Storage account for Terraform state"
+}
+
+variable "state_container" {
+  type        = string
+  description = "Blob container for Terraform state"
+}
+
+variable "state_key" {
+  type        = string
+  description = "Blob name (key) for Terraform state file"
+}
+
+#############################
+# Core landing zone settings
+#############################
+
+variable "rg_name" {
+  type        = string
+  description = "Name of the enterprise resource group"
+}
+
+variable "hub_vnet_name" {
+  type        = string
+  description = "Name of the hub virtual network"
+}
+
+variable "hub_vnet_cidr" {
+  type        = string
+  description = "Address space for the hub virtual network"
+}
+
+variable "default_subnet_name" {
+  type        = string
+  description = "Name of the default workload subnet"
+}
+
+variable "default_subnet_cidr" {
+  type        = string
+  description = "CIDR for the default workload subnet"
+}
+
+#############################
+# Firewall
+#############################
+
+variable "firewall_name" {
+  type        = string
+  description = "Name of the Azure Firewall"
+}
+
+variable "firewall_subnet_name" {
+  type        = string
+  description = "Name of the AzureFirewallSubnet"
+}
+
+variable "firewall_subnet_cidr" {
+  type        = string
+  description = "CIDR for the AzureFirewallSubnet"
+}
+
+#############################
+# Bastion
+#############################
+
+variable "bastion_name" {
+  type        = string
+  description = "Name of the Bastion host"
 }
 
 variable "bastion_subnet_name" {
-  description = "Subnet name for Azure Bastion (must be AzureBastionSubnet)."
   type        = string
-  default     = "AzureBastionSubnet"
+  description = "Name of the AzureBastionSubnet"
 }
 
-variable "bastion_subnet_prefix" {
-  description = "Address prefix for the Bastion subnet."
+variable "bastion_subnet_cidr" {
   type        = string
-  default     = "10.0.3.0/27"
+  description = "CIDR for the AzureBastionSubnet"
 }
+
+#############################
+# NSG and UDR
+#############################
 
 variable "nsg_name" {
-  description = "Name of the Network Security Group applied to the default subnet."
   type        = string
-  default     = "nsg-hub-default"
+  description = "Name of the network security group for the default subnet"
 }
 
 variable "route_table_name" {
-  description = "Name of the route table for forced tunneling through the firewall."
   type        = string
-  default     = "rt-hub-default"
+  description = "Name of the route table for the default subnet"
 }
 
+#############################
+# Log Analytics
+#############################
+
+variable "log_analytics_name" {
+  type        = string
+  description = "Name of the Log Analytics workspace"
+}
+
+#############################
+# Tags
+#############################
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to apply to all resources"
+}
