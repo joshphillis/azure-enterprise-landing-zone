@@ -9,8 +9,7 @@ Fully automated, Terraform‑driven Azure foundation layer.
 This repository deploys the shared enterprise landing zone that all downstream workloads depend on.  
 It provides the core network, Bastion access, and remote state backend used by the VM workload stack.
 
-📸 Screenshots available in:  
-`/architecture/screenshots`
+📸 Screenshots available in `/architecture/screenshots`
 
 ---
 
@@ -29,13 +28,17 @@ It provides the core network, Bastion access, and remote state backend used by t
 
 ## 📁 Repository Structure
 
-```
+```text
 azure-enterprise-landing-zone/
-└── terraform/
-    ├── main.tf
-    ├── variables.tf
-    ├── outputs.tf
-    └── terraform.tfvars   # created locally, not committed
+├── architecture/
+│   └── screenshots/              # Optional visuals
+├── terraform/                    # Landing zone Terraform project
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── outputs.tf
+│   └── terraform.tfvars          # created locally, not committed
+└── README.md
+```
 
 ---
 
@@ -53,35 +56,33 @@ az login
 
 ```bash
 az group create --name rg-tfstate-enterprise --location eastus
-```
 
-```bash
 az storage account create \
-  --name <your-storage-account> \
+  --name sttfstateenterprise01 \
   --resource-group rg-tfstate-enterprise \
   --location eastus \
   --sku Standard_LRS \
   --kind StorageV2
-```
 
-```bash
 az storage container create \
   --name tfstate \
-  --account-name <your-storage-account>
+  --account-name sttfstateenterprise01
+```
+
 ---
 
-### 3. Create your terraform.tfvars
+### 3. Create your `terraform.tfvars`
 
 This file stays **local only** and includes:
 
-```
+```hcl
 subscription_id   = "<your-subscription-id>"
 tenant_id         = "<your-tenant-id>"
 client_id         = "<your-client-id>"
 client_secret     = "<your-client-secret>"
 
 state_rg          = "rg-tfstate-enterprise"
-state_sa          = "<your-storage-account>"
+state_sa          = "sttfstateenterprise01"
 state_container   = "tfstate"
 state_key         = "enterprise.tfstate"
 
@@ -120,13 +121,22 @@ cd terraform
 terraform destroy
 ```
 
-To remove the backend as well:
+To remove the backend:
 
 ```bash
 az group delete --name rg-tfstate-enterprise
 ```
 
 ---
+
+## ✔️ Status
+
+This repository has been validated end‑to‑end from a local machine using VS Code.
+GitHub Actions integration has not been tested.
+
+---
+
+Let me know when you're ready for the **README.md for Repository #2 (Workload VM Stack)** — I’ll keep it just as clean and GitHub-accurate.
 
 ## ✔️ Status
 
