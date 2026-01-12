@@ -7,24 +7,23 @@ resource "azurerm_subnet" "bastion" {
 
 resource "azurerm_public_ip" "bastion" {
   name                = "${var.bastion_name}-pip"
-  resource_group_name = var.resource_group_name
   location            = var.location
+  resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   sku                 = "Standard"
+  tags                = var.tags
 }
 
 resource "azurerm_bastion_host" "bastion" {
   name                = var.bastion_name
-  resource_group_name = var.resource_group_name
   location            = var.location
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                 = "bastion-ipconfig"
+    name                 = "configuration"
     subnet_id            = azurerm_subnet.bastion.id
     public_ip_address_id = azurerm_public_ip.bastion.id
   }
-}
 
-output "bastion_id" {
-  value = azurerm_bastion_host.bastion.id
+  tags = var.tags
 }
