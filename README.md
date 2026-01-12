@@ -132,13 +132,4 @@ az group delete --name rg-tfstate-enterprise
 ## ✔️ Status
 
 This repository has been validated end‑to‑end from a local machine using VS Code.
-GitHub Actions integration has not been tested.
-
----
-
-Let me know when you're ready for the **README.md for Repository #2 (Workload VM Stack)** — I’ll keep it just as clean and GitHub-accurate.
-
-## ✔️ Status
-
-This repository has been validated end‑to‑end from a local machine using VS Code.
 ```
