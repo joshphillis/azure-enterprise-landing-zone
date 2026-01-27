@@ -1,62 +1,109 @@
+###############################################
+# FIREWALL POLICY
+###############################################
 resource "azurerm_firewall_policy" "hub" {
-  name                = "az-fw-hub"
+  name                = "${var.firewall_name}-policy"
   resource_group_name = azurerm_resource_group.enterprise.name
-  location            = azurerm_resource_group.enterprise.location
-
-  sku = "Standard"
+  location            = var.location
+  tags                = var.tags
 }
 
-resource "azurerm_firewall_policy_rule_collection_group" "hub_app_rules" {
-  name               = "rcg-app-rules"
+###############################################
+# DEFAULT RULE COLLECTION GROUP (INTERNAL TRAFFIC)
+###############################################
+resource "azurerm_firewall_policy_rule_collection_group" "hub" {
+  name               = "default-rules"
   firewall_policy_id = azurerm_firewall_policy.hub.id
   priority           = 100
 
-  application_rule_collection {
-    name     = "allow-outbound-web"
+  network_rule_collection {
+    name     = "allow-internal"
     priority = 100
     action   = "Allow"
 
     rule {
-      name = "allow-http-https"
+      name                  = "allow-vnet"
+      source_addresses      = [var.hub_vnet_cidr]
+      destination_addresses = [var.hub_vnet_cidr]
+      destination_ports     = ["*"]
+      protocols             = ["Any"]
+    }
+  }
+}
 
-      source_addresses = [
-        "10.0.0.0/8"
-      ]
+###############################################
+# AKS EGRESS RULE COLLECTION GROUP
+###############################################
+resource "azurerm_firewall_policy_rule_collection_group" "aks_egress" {
+  name               = "aks-egress-rcg"
+  firewall_policy_id = azurerm_firewall_policy.hub.id
+  priority           = 200
 
-      destination_fqdns = [
-        "www.microsoft.com",
-        "learn.microsoft.com"
-      ]
+  application_rule_collection {
+    name     = "aks-egress"
+    priority = 200
+    action   = "Allow"
 
-      protocols {
-        type = "Http"
-        port = 80
-      }
+    rule {
+      name = "aks-bootstrap"
+      source_addresses = ["10.0.10.0/24"]
 
       protocols {
         type = "Https"
         port = 443
       }
-    }
-  }
 
-  network_rule_collection {
-    name     = "allow-dns"
-    priority = 200
-    action   = "Allow"
+      destination_fqdns = [
+        "*.azmk8s.io",
+        "*.hcp.eastus.azmk8s.io"
+      ]
+    }
 
     rule {
-      name = "dns-outbound"
-      source_addresses      = ["10.0.0.0/8"]
-      destination_ports     = ["53"]
-      destination_addresses = ["*"]
-      protocols             = ["UDP"]
+      name = "linux-packages"
+      source_addresses = ["10.0.10.0/24"]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+
+      destination_fqdns = [
+        "packages.microsoft.com",
+        "*.ubuntu.com",
+        "archive.ubuntu.com",
+        "security.ubuntu.com"
+      ]
+    }
+
+    rule {
+      name = "container-registries"
+      source_addresses = ["10.0.10.0/24"]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+
+      destination_fqdns = [
+        "*.azurecr.io",
+        "mcr.microsoft.com"
+      ]
+    }
+
+    rule {
+      name = "identity"
+      source_addresses = ["10.0.10.0/24"]
+
+      protocols {
+        type = "Https"
+        port = 443
+      }
+
+      destination_fqdns = [
+        "login.microsoftonline.com",
+        "management.azure.com"
+      ]
     }
   }
 }
-
-# NOTE:
-# This is an example scaffold. Adjust or remove rules to match your actual policy.
-# If your existing policy is more complex, document it in README and selectively
-# migrate rules over time rather than trying to mirror it 1:1 on day one.
-
